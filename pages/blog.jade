@@ -1,0 +1,5 @@
+
+ul
+    each article, slug in public.articles.data
+        li
+            a(href="/articles/#{ slug }") #{ article.date } : #{ article.title }
