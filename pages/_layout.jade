@@ -6,14 +6,18 @@ html
 
   body
 
-    .container
-        != partial("../_partials/menu")
+    .bg-img
+        .container
+            .col-md-4
+                != partial("../_partials/menu")
+            .col-md-8 
+                h1.header= '<' + title + ' />'
 
 
     .container
-        h1.header
-            .col-md-8.col-md-offset-4= '<' + title + ' />'
+        //- h1.header
+        //-     .col-md-8.col-md-offset-4= '<' + title + ' />'
 
-        hr.col-md-8.col-md-offset-4
+        //- hr.col-md-8.col-md-offset-4
 
         != yield

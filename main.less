@@ -37,6 +37,7 @@
 
 h1.header, h2.header {
   .norwester;
+  color: white;
   font-weight: normal;
 }
 
@@ -46,14 +47,80 @@ h1, h2 {
 }
 
 h1.header {
+  padding-top: 80px;
   font-size: 65px;
   line-height: 1.2em;
-  // border-bottom: #CCC solid 1px;
-  // padding: 20px 0;
 }
 
-.row .col-sm-4.text-right h3 {
+.bg-img {
+  background-image: url("/img/footer.jpg");
+  background-position: center;
+  margin-bottom: 30px;
+  border-bottom: lighten(#FF7300, 12.5%) solid 1px;
+}
 
+
+// menu animation and tyling
+nav.nav {
+  z-index: 200;
+  // position: absolute;
+  width:220px;
+  .norwester;
+
+  ul {
+    padding: 0;
+    margin: 0;
+    margin-left: 5px;
+    float: left;
+
+    li {
+      list-style: none;
+      padding: 0px;
+
+      a {
+        text-decoration: none;
+        font-size: 25px;
+        padding: 4px;
+        display: block;
+        color: transparent;
+        background: transparent;
+        width: 350px;
+        -moz-transition: all .5s;
+        -webkit-transition: all .5s;
+        -o-transition: all .5s;
+        transition: all .5s;
+        line-height: 20px;
+
+        i {
+          color: #FF7500;
+          -moz-transition: all .5s;
+          -webkit-transition: all .5s;
+          -o-transition: all .5s;
+          transition: all .5s;
+        }
+      }
+
+      a:hover {
+        background: #FF7500;
+        padding-left: 15px;
+        color: #FFF;
+        width: 250px;
+        -moz-transition: all .5s;
+        -webkit-transition: all .5s;
+        -o-transition: all .5s;
+        transition: all .5s;
+
+        i {
+          color: #FFF;
+          -moz-transition: all .5s;
+          -webkit-transition: all .5s;
+          -o-transition: all .5s;
+          transition: all .5s;
+        }
+
+      }
+    }
+  }
 }
 
 
@@ -70,4 +137,9 @@ article {
 
 .text-justify {
   text-align: justify;
+}
+
+
+.container {
+  position: relative;
 }

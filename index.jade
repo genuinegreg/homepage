@@ -1,10 +1,14 @@
-div.container
 
-    h1.header
-        .col-md-8.col-md-offset-4 <i class="glyphicon glyphicon-chevron-right"></i> Hi, I'm Greg
 
+.bg-img
+    .container
+        .col-md-4
+            != partial("_partials/menu")
+        .col-md-8 
+            h1.header <i class="glyphicon glyphicon-chevron-right"></i> Hi, I'm Greg
+
+.container
     .col-md-8.col-md-offset-4
-        hr/
 
         .lead
             :markdown
