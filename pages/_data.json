@@ -3,6 +3,13 @@
 		"title": "Stories"
 	},
 	"cv": {
-		"title": "CV"
+		"title": "Curriculum-vitae"
+	},
+	"labs": {
+		"title": "Labs"
+	},
+	"about-me": {
+		"title": "About-me"
 	}
+
 }

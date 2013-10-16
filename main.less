@@ -10,11 +10,6 @@
 }
 
 body{
-
-  padding: 20px;
-  background: #f4f4f7;
-  color: #444;
-  margin: 0;
 }
 
 h1, h2 {
@@ -24,8 +19,8 @@ h1, h2 {
 h1.header {
   font-size: 65px;
   line-height: 1.2em;
-  border-bottom: #CCC solid 1px;
-  padding: 20px 0;
+  // border-bottom: #CCC solid 1px;
+  // padding: 20px 0;
 }
 
 .center {
@@ -42,8 +37,12 @@ h3{
 }
 
 article {
-  p:first-child {
-    font-size: 20px;
+  .header+p {
+    font-size: 24px;
   }
 }
 
+
+.text-justify {
+  text-align: justify;
+}

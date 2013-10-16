@@ -9,7 +9,8 @@ html
         != partial("../_partials/menu")
         
     h1.header
-        .container #{ title }
+        .container 
+            .col-md-8.col-md-offset-4= '<' + title + ' />'
     
-    .container
+    .container.text-justify
         != yield

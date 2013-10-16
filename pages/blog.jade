@@ -1,5 +1,10 @@
 
-ul
-    each article, slug in public.articles.data
-        li
-            a(href="/articles/#{ slug }") #{ article.date } : #{ article.title }
+each article, slug in public.articles.data    
+    .row
+        .col-md-4
+            h3.pull-right.text-muted #{ article.date }
+        .col-md-8 
+            h3 
+                a(href="/articles/#{ slug }") #{ article.title }
+
+
