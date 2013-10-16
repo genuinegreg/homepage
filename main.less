@@ -9,11 +9,40 @@
   font-style: normal;
 }
 
-body{
+@font-face {
+  font-family: 'Delicious';
+  src: url('/fonts/Delicious-Roman.otf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Delicious';
+  src: url('/fonts/Delicious-Bold.otf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Delicious-sc';
+  src: url('/fonts/Delicious-SmallCaps.otf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+.norwester {
+  font-family: "Norwester";
+}
+
+h1.header, h2.header {
+  .norwester;
+  font-weight: normal;
 }
 
 h1, h2 {
-  font-family: "Norwester";
+  font-family: "Delicious-sc";
+  font-weight: bold
 }
 
 h1.header {
@@ -23,17 +52,13 @@ h1.header {
   // padding: 20px 0;
 }
 
-.center {
-  text-align: center;
+.row .col-sm-4.text-right h3 {
+
 }
 
 
 h3{
   font-weight: 300;
-}
-
-.menu {
-
 }
 
 article {
