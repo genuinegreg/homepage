@@ -1,6 +1,13 @@
 {
-	"a-neat-rest-api-with-nodejs-and-restify": {
-		"title": "A neat REST Api with nodejs and restify",
-		"date": "15/10/2013"
-	}
+    "a-neat-rest-api-with-nodejs-and-restify": {
+        "title": "A neat REST Api with nodejs and restify",
+        "date": "15 oct, 2013",
+        "desc": "How to build a simple and neat REST Api",
+        "draft": true
+    },
+    "a-storie-about-its-not-ready-yet": {
+        "title": "A storie about \"It's not ready yet\"",
+        "date": "16 oct, 2013",
+        "desc": "I'm currently writing an article on REST Api with nodejs and restify and a other one about blog and Harp server. But they're not ready yet."
+    }
 }

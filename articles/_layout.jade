@@ -5,10 +5,17 @@ html
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
   body
 
-    .container
-        != partial("../_partials/menu")
+    .bg-img
+        .container
+            .col-md-4
+                != partial("../_partials/menu")
+            .col-md-8 
+                h1.header= '<Stories />'
 
     .container
-        article.col-md-8.col-md-offset-2
-            h1.header #{ title }
+        .col-md-4.text-right.text-info
+            h1.norwester #{ date }
+            h3.norwester By <a href="/pages/about-me">Greg</a>
+        article.col-md-8
+            h1.norwester #{ title }
             != yield

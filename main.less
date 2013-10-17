@@ -1,4 +1,6 @@
 
+@import "vendors/bootstrap/_less/variables.less";
+
 @font-face {
   font-family: 'Norwester';
   src: url('/fonts/norwester.eot');
@@ -31,32 +33,46 @@
 }
 
 
+html {
+  min-height: 100%;
+  padding-bottom: 150px;
+  border-bottom: @brand-info solid 2px;
+}
+
 .norwester {
   font-family: "Norwester";
 }
 
-h1.header, h2.header {
-  .norwester;
-  color: white;
-  font-weight: normal;
-}
-
-h1, h2 {
+.delicious-sc {
   font-family: "Delicious-sc";
-  font-weight: bold
 }
 
 h1.header {
+  .norwester;
+  color: white;
   padding-top: 80px;
   font-size: 65px;
-  line-height: 1.2em;
 }
+
+h1 {
+  .norwester;
+}
+
+h2, .delicious-sc-bold {
+  .delicious-sc;
+  font-weight: bold;
+}
+
+// h1.header {
+//   font-size: 65px;
+//   line-height: 1.2em;
+// }
 
 .bg-img {
   background-image: url("/img/footer.jpg");
   background-position: center;
   margin-bottom: 30px;
-  border-bottom: lighten(#FF7300, 12.5%) solid 1px;
+  border-bottom: @brand-info solid 1px;
 }
 
 
@@ -92,7 +108,7 @@ nav.nav {
         line-height: 20px;
 
         i {
-          color: #FF7500;
+          color: @brand-info;
           -moz-transition: all .5s;
           -webkit-transition: all .5s;
           -o-transition: all .5s;
@@ -101,7 +117,7 @@ nav.nav {
       }
 
       a:hover {
-        background: #FF7500;
+        background: @brand-primary;
         padding-left: 15px;
         color: #FFF;
         width: 250px;
@@ -123,15 +139,48 @@ nav.nav {
   }
 }
 
-
-h3{
-  font-weight: 300;
-}
-
-article {
-  .header+p {
-    font-size: 24px;
+pre {
+  code {
+    font-size: 14px;
+    overflow-x: scroll;
+    white-space: pre;
+    text-overflow: ellipsis;
+    * {
+      font-size: inherit;
+    }
   }
+}
+// pre {
+//   -moz-transition: all .5s;
+//   -webkit-transition: all .5s;
+//   -o-transition: all .5s;
+//   transition: all .5s;
+
+
+    
+
+//   code {
+//     overflow: hidden;
+//     text-overflow: ellipsis;
+//     white-space: pre;
+//     font-size: 14px;
+    
+//   }
+// }
+
+// pre:hover {
+//   margin-left: -200px;
+//   code {
+//     // -moz-transition: all .5s;
+//     // -webkit-transition: all .5s;
+//     // -o-transition: all .5s;
+//     // transition: all .5s;
+//   }
+// }
+
+article+p{
+    font-size: 24px;
+  
 }
 
 

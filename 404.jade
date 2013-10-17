@@ -1,7 +1,14 @@
 
-.col-sm-8.col-sm-offset-4
-    h1.header Oops
-.col-sm-4
-    h1.text-muted.pull-right Error 404
-.col-sm-8
-    h1 Page not found
+.bg-img
+    .container
+        .col-md-4
+            != partial("_partials/menu")
+        .col-md-8 
+            h1.header= '<Oops />'
+
+
+.container
+    .col-sm-4
+        h1.norwester.text-info.text-right Error 404
+    .col-sm-8
+        h1.norwester.text-primary Page not found

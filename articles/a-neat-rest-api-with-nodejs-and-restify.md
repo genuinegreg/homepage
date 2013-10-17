@@ -29,7 +29,7 @@ A neat REST Api
 ---------------
 I find a lots of inspiration in [this awsome post](http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api). After carfull thougth and reflexion I plan to build this Api :
 
-```
+```http
 /***************************
 /*** User resource *********/
 

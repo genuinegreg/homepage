@@ -1,12 +1,15 @@
 .row
     .col-sm-4
-        h1.text-right Grégoire Audoux
+        h1.delicious-sc-bold.text-right Grégoire Audoux
     .col-sm-8
-        h1
+        h1.delicious-sc-bold
             small recherche poste ingénieur informatique
 
 .row
-    .col-sm-8.col-sm-offset-4
+    .col-sm-4
+        p.text-right
+            a.text-info(href="#") <span class="glyphicon glyphicon-download"></span> Download PDF
+    .col-sm-8
         h2 Expériences Proféssionnelles
 .row
     .col-sm-4.text-right
@@ -119,7 +122,9 @@
     .col-sm-4.text-right
         p.text-info Divers
     .col-sm-8
-        p Photo amateur
-        p Lecteur assidu
-            a(href="httsp://news.ycombinator.com/", target="_blank") d'Hacker news
-        p Lecteur assidu tout cour
+        :markdown
+            Photo amateur
+
+            Lecteur assidu d'[Hacker news](httsp://news.ycombinator.com/)
+
+            Lecteur assidu tout cour
