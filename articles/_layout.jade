@@ -5,17 +5,20 @@ html
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
   body
 
-    .bg-img
-        .container
-            .col-md-4
-                != partial("../_partials/menu")
-            .col-md-8 
-                h1.header= '<Stories />'
+    .wrap
+        .bg-img
+            .container
+                .col-md-4
+                    != partial("../_partials/menu")
+                .col-md-8 
+                    h1.header= '<Stories />'
 
-    .container
-        .col-md-4.text-right.text-info
-            h1.norwester #{ date }
-            h3.norwester By <a href="/pages/about-me">Greg</a>
-        article.col-md-8
-            h1.norwester #{ title }
-            != yield
+        .container
+            .col-md-4.text-right.text-info
+                h1.norwester #{ date }
+                h3.norwester By <a href="/pages/about-me">Greg</a>
+            article.col-md-8
+                h1.norwester #{ title }
+                != yield
+
+    != partial("../_partials/footer")

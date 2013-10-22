@@ -1,15 +1,21 @@
 {
-	"blog": {
-		"title": "Stories"
-	},
-	"cv": {
-		"title": "Curriculum-vitae"
-	},
-	"labs": {
-		"title": "Labs"
-	},
-	"about-me": {
-		"title": "About-me"
-	}
+    "blog": {
+        "title": "Stories"
+    },
+    "cv": {
+        "title": "Curriculum-vitae"
+    },
+    "cv-fr": {
+        "title": "Curriculum-vitae"
+    },
+    "cv-download": {
+        "title": "Curriculum-vitae"
+    },
+    "labs": {
+        "title": "Labs"
+    },
+    "about-me": {
+        "title": "About-me"
+    }
 
 }

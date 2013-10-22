@@ -1,12 +1,13 @@
 !!!
 html
-  head
-    != partial("_partials/head")
-  body
+	head
+		!= partial("_partials/head")
+	body
 
 
-    //- != partial("_partials/menu")
-    != yield
+		//- != partial("_partials/menu")
+		.wrap
+			!= yield
 
 
-    != partial("_partials/ga")
+		!= partial("_partials/footer")

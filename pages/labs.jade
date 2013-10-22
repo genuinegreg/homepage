@@ -1,18 +1,28 @@
 
-.row
-    .col-md-4
-        h3.pull-right.text-info WebApp
-    .col-md-8.text-muted
-        :markdown
-            ### [Plop-sync](https://plop.io/sync/)
-            Bittorrent sync cloud plateforme build with nodejs, restify, angularjs, btsync and docker.io.
+//- .row
+//-     .col-md-4
+//-         h3.pull-right.text-info WebApp
+//-     .col-md-8.text-muted
+//-         :markdown
+//-             ### [Plop-sync](https://plop.io/sync/)
+//-             Bittorrent sync cloud plateforme build with nodejs, restify, angularjs, btsync and docker.io.
 
-hr.col-md-8.col-md-offset-4
+//- hr.col-md-8.col-md-offset-4
 
-.row
-    .col-md-4
-        h3.pull-right.text-info WebApp
-    .col-md-8.text-muted
-        :markdown
-            ### [Test](#)
-            Tralala description
+//- .row
+//-     .col-md-4
+//-         h3.pull-right.text-info WebApp
+//-     .col-md-8.text-muted
+//-         :markdown
+//-             ### [Test](#)
+//-             Tralala description
+
+each lab, index in public.pages.labs_data.data
+    .row
+        .col-md-4
+            h3.pull-right.text-info #{ lab.cat }
+        .col-md-8.text-muted
+
+            h3
+                a(href="#{ lab.url }") #{ lab.title }
+            p #{ lab.desc }

@@ -33,10 +33,23 @@
 }
 
 
-html {
+html, body {
+  height: 100%;
+}
+
+.wrap {
   min-height: 100%;
-  padding-bottom: 150px;
-  border-bottom: @brand-info solid 2px;
+  height: auto !important;
+  height: 100%;
+  /* Negative indent footer by its height */
+  margin: 0 auto -120px;
+  /* Pad bottom by footer height */
+  padding: 0 0 160px;
+}
+
+/* Set the fixed height of the footer here */
+.footer {
+  height: 120px;
 }
 
 .norwester {
@@ -54,6 +67,12 @@ h1.header {
   font-size: 65px;
 }
 
+footer.footer {
+  position: absolute;
+  bottom:0px;
+  margin-top:50px;
+}
+
 h1 {
   .norwester;
 }
@@ -69,7 +88,7 @@ h2, .delicious-sc-bold {
 // }
 
 .bg-img {
-  background-image: url("/img/footer.jpg");
+  background-image: url("/img/header.jpg");
   background-position: center;
   margin-bottom: 30px;
   border-bottom: @brand-info solid 1px;

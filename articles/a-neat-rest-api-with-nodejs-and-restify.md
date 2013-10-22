@@ -1,39 +1,39 @@
 
-Since I recently had some time to work on side project, I worked on a p2p/cloud service based on BitTorrent sync : [plop-sync](http://plop.io).  I managed to build a neat REST Api useing nodejs, restify and mongoose.
+Since I recently had some time to work on a side project, I worked on a p2p/cloud service based on BitTorrent sync : [plop-sync](http://plop.io).  I managed to build a neat REST Api using nodejs, restify and mongoose.
 
 Context
 -----------------
 The main purposes of the project were
 
- - Look deeper into nodejs/angularsjs
+ - Look deeper into nodejs/angularjs
  - Look deeper into docker.io
 
-### Angularsjs Ui / Nodejs REST Api
-The Ui is build with 
+### Angularjs Ui / Nodejs REST Api
+The Ui is built with
 
  - Angularjs : simple page WebApp
  - Restangular : Easy connection with the backend
  - Bootstrap : Default layout and style
 
-The REST API is build with
+The REST API is built with
 
  - Nodejs : Javascript on the server
- - Restify : A nodejs module designed to build REST Api quite similare to Express without all html templating
- - Mongoose : nodejs module deigned designed to provide simple Mongodb Schema based modeling and validation and fluid quering syntax
+ - Restify : A nodejs module designed to build REST Api quite similar to Express without all html templating
+ - Mongoose : nodejs module designed to provide simple Mongodb Schema based modeling and validation and fluid querying syntax
 
 ### Btsync Backend
-I obvisly used Bittorent Sync linux packages but each shared folder is runing in a separate docker.io container to provide isolation betwin each users folder. 
+I obviously used Bittorent Sync linux packages, but each shared folder is running in a separate docker.io container to provide isolation between each users folder.
 
- 
+
 A neat REST Api
 ---------------
-I find a lots of inspiration in [this awsome post](http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api). After carfull thougth and reflexion I plan to build this Api :
+I find lots of inspiration in [this awesome post](http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api). After careful thoughts and reflexion I plan to build this Api :
 
 ```http
 /***************************
 /*** User resource *********/
 
-# create a new User
+# Create a new User
 POST /users/:id
 # Update user
 PUT /users/:id
@@ -57,7 +57,7 @@ DEL /users/:id/folders/:folderId
 PUT /users/:id/folders/:folderId
 ```
 
-Which ultimatly look like this in nodejs/restify
+Which ultimately look like this in nodejs/restify
 
 ```javascript
 // ** server.js *********************
@@ -65,7 +65,7 @@ Which ultimatly look like this in nodejs/restify
 // require restify npm module
 var restify = require('restify');
 // create a simple server
-var server = restify.createServer({ 
+var server = restify.createServer({
     name: 'btsync-saas'
 });
 
@@ -78,7 +78,7 @@ server.use(restify.authorizationParser());
 server.use(restify.bodyParser());
 
 // ***********************
-// Users ressources
+// Users resources
 
 server.get( // Return user profile
     '/users/:id', access.authenticated(), access.idRequired(), access.userRestricted(),
@@ -98,7 +98,7 @@ server.post( // Send credential and return auth token (login)
 
 
 // ************************
-// Folders ressources
+// Folders resources
 
 server.get( // Return folders list
     '/users/:id/folders', access.authenticated(), access.idRequired(), access.userRestricted(),
@@ -115,8 +115,8 @@ server.del( // delete a shared folder
 server.put( // update existing shared folder
     '/users/:id/folders/:folderId', access.authenticated(), access.idRequired(), access.folderIdRequired(), access.userRestricted(),
     route.Folders.update);
-    
-    
+
+
 // start server
 server.listen(8080, function () {
     console.log('%s listening at %s', server.name, server.url);
@@ -133,7 +133,7 @@ exports.login = function login(req, res, next) {
         schema.User.login(req.params.id, req.params.password, function (err, user) {
             // in case of db errors just rend a Restify InternalError to the restify router
             if (err) return next(new restify.InternalError());
-            // if their is no user 'throw' a restify Error 
+            // if their is no user 'throw' a restify Error
             if (!user) return next(new restify.InvalidCredentialsError());
 
             // If evrything looks good juste send back filtered results
@@ -145,16 +145,16 @@ exports.login = function login(req, res, next) {
     }
 ```
 
-As you can see most routes are mostly error management and result filtering (we don't want our password hash roaming on the web)
+As you can see most routes are mostly error management and result filtering (we do not want our password hash roaming on the web)
 
-One of the most complexe routes look like this.
+One of the most complex routes look like this.
 ```javascript
 // ** routes.js excerpt *******************
 
 exports.list = function getSharedFoldersList(req, res, next) {
         // db reuest for all user folders
         req.user.findFolders(function (err, folders) {
-            
+
             // throw restify.InternalError() on db error
             if (err) return next(new restify.InternalError());
 
@@ -162,8 +162,8 @@ exports.list = function getSharedFoldersList(req, res, next) {
             async.map(
                 folders, // we're working on folders
                 function iterator(item, cb) {
-                    
-                    // for each folder we make two more db request 
+
+                    // for each folder we make two more db request
                     async.parallel({
                         // find folder size in logs
                         size: function (sizeCallback) {
@@ -203,20 +203,20 @@ exports.list = function getSharedFoldersList(req, res, next) {
         });
     }
 ```
-As you can see, it's still mostly error management and result filtering.
-All authentication and input filtering/validation burden has been take care by generic middleware
+As you can see, it is still mostly error management and result filtering.
+All authentication and input filtering/validation burden have been taken care by generic middleware
 ```javascript
 // ** server.js excerpt **********
 
 server.get( // Return folders list
     // route URL
-    '/users/:id/folders',       
+    '/users/:id/folders',
     // User need to be authenticated (throw NotAuthorizedError)
-    access.authenticated(),     
+    access.authenticated(),
     // userid is required and validate (throw MissingParameterError)
-    access.idRequired(),      
-    // Users can only acces their own ressources (throw NotAuthorizedError)
-    access.userRestricted(),  
+    access.idRequired(),
+    // Users can only acces their own resources (throw NotAuthorizedError)
+    access.userRestricted(),
     // route handler
     route.Folders.list);
 ```

@@ -1,0 +1,14 @@
+{
+	"plop-sync": {
+		"title": "Plop-sync",
+		"desc": "Bittorrent sync cloud platform build with nodejs, restify and angularjs",
+		"cat": "WebApp",
+		"url": "https://plop.io/sync/"
+	},
+	"gregoire-audoux-fr": {
+		"title": "gregoire-audoux.fr",
+		"desc": "My personal website you are currently browsing",
+		"cat": "Website",
+		"url": "http://gregoire-audoux.fr"
+	}
+}

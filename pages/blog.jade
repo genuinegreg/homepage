@@ -6,7 +6,7 @@
 //-         h3 please comme back soon !
 //-         p.text-muted I'm currently writing an article on REST Api with nodejs and restify and a other one about blog and Harp server
 
-each article, slug in public.articles.data
+each article, index in public.articles.data
 
     unless article.draft
         .row
@@ -14,7 +14,7 @@ each article, slug in public.articles.data
                 h3.text-right.text-info.norwester #{ article.date }
             .col-md-8
                 h3
-                    a(href="../articles/#{ slug }") #{ article.title }
+                    a(href="../articles/#{ index }") #{ article.title }
                 p.text-muted #{ article.desc }
 
 

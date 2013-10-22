@@ -6,18 +6,16 @@ html
 
   body
 
-    .bg-img
+    .wrap
+        .bg-img
+            .container
+                .col-md-4
+                    != partial("../_partials/menu")
+                .col-md-8 
+                    h1.header= '<' + title + ' />'
+
         .container
-            .col-md-4
-                != partial("../_partials/menu")
-            .col-md-8 
-                h1.header= '<' + title + ' />'
+            != yield
 
 
-    .container
-        //- h1.header
-        //-     .col-md-8.col-md-offset-4= '<' + title + ' />'
-
-        //- hr.col-md-8.col-md-offset-4
-
-        != yield
+    != partial("../_partials/footer")
