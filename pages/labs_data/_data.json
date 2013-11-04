@@ -6,8 +6,8 @@
 		"url": "https://plop.io/sync/"
 	},
 	"gregoire-audoux-fr": {
-		"title": "gregoire-audoux.fr",
-		"desc": "My personal website you are currently browsing",
+		"title": "Grégoire Audoux",
+		"desc": "My personal website and blog build on top of harpjs",
 		"cat": "Website",
 		"url": "http://gregoire-audoux.fr"
 	}
