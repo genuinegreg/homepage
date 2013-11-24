@@ -1,224 +1,387 @@
+I recently had some time to learn a bit more about angulars, docker and nodejs rest api while building [Plop-Sync](https://plop.io/sync/). I made some mistakes (which I hopfully fix).
 
-Since I recently had some time to work on a side project, I worked on a p2p/cloud service based on BitTorrent sync : [plop-sync](http://plop.io).  I managed to build a neat REST Api using nodejs, restify and mongoose.
+I'll try to sumarize all the thing a learn about building a clean REST Api with nodejs, restify and mongoose.
 
-Context
------------------
-The main purposes of the project were
-
- - Look deeper into nodejs/angularjs
- - Look deeper into docker.io
-
-### Angularjs Ui / Nodejs REST Api
-The Ui is built with
-
- - Angularjs : simple page WebApp
- - Restangular : Easy connection with the backend
- - Bootstrap : Default layout and style
-
-The REST API is built with
-
- - Nodejs : Javascript on the server
- - Restify : A nodejs module designed to build REST Api quite similar to Express without all html templating
- - Mongoose : nodejs module designed to provide simple Mongodb Schema based modeling and validation and fluid querying syntax
-
-### Btsync Backend
-I obviously used Bittorent Sync linux packages, but each shared folder is running in a separate docker.io container to provide isolation between each users folder.
+First, I learn a lots thank to [Vinay Sahni and his awesome article about REST Api](http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api).
 
 
-A neat REST Api
+### Summary
+
+Part 1
+
+ 1. Intro
+
+ 2. Design
+
+    2.1. Data model
+
+    2.2. RESTfull resources
+
+ 3. Let's code
+
+    3.1 Seting up the project
+
+    3.2 Seting up basic Message model
+
+    3.3 Seting up basic Messages routes controller
+
+    3.4 Server bootstrap and routes wireing
+
+ 10. References
+
+Introduction
 ---------------
-I find lots of inspiration in [this awesome post](http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api). After careful thoughts and reflexion I plan to build this Api :
 
-```http
-/***************************
-/*** User resource *********/
+Lets say we want to  build something like twiter with users, messages, users folow each other and messages can be "rebounced" but with a single page WebApp (maybe with angularjs) and a separate REST Api.
 
-# Create a new User
-POST /users/:id
-# Update user
-PUT /users/:id
-# Get user profile
-GET /users/:id
-# Login
-GET /users/:id/login
+2. Design
+----------
 
-/***************************
-/*** Folders resource ******/
+### 2.1. Data model
 
-# Get folders list
-GET /users/:id/folders
-# Get folder details
-GET /users/:id/folders/:folderId
-# Create a new folder
-POST /users/:id/folders
-# Delete a folder
-DEL /users/:id/folders/:folderId
-# Update a folder
-PUT /users/:id/folders/:folderId
-```
+So, Twiter right ? Lets design the data model.
 
-Which ultimately look like this in nodejs/restify
+We need users... and messages. 
+
+ * Each user can have multiple messages.
+ * Each message is published by a user.
+ * Users follow each other
+ * Message can be rebounce
+
+![Uml data model](a-neat-rest-api-with-nodejs-and-restify_imgs/fig1-uml-model.png)
 
 ```javascript
-// ** server.js *********************
 
-// require restify npm module
+User: {
+    id:       'ObjectId'
+    username: 'string',
+    password: 'string',
+    email:    'string',
+    firstname:'string',
+    lastname: 'string',
+    bio:      'string',
+    follow:   ['ObjectId'] // users followed
+}
+
+Message: {
+    content:       'string',
+    user:          'ObjectId', // Owner 
+    rebounced:     'ObjectId', // Origin message for rebounce
+    createdOn:     'date',
+    lastUpdatedOn: 'date'
+
+}
+```
+
+### 2.2. RESTflull resources
+
+RESTfull Api are seperated in logical resources (moun) making sens for the api consumer ([more detailed definition](http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api#restful)).
+
+Lets defined Users and Messages resources
+
+
+#### Basic CRUD methods
+```
+GET  /users/:id             // get user details
+POST /users                 // create new user
+PUT  /users/:id             // Update user details
+DEL  /users/:id             // delete user
+
+GET  /messages              // get all messages
+GET  /messages/:id          // get message details
+POST /messages              // send a new message
+PUT  /messages/:id          // update message details
+DEL  /messages::id          // delete messages
+```
+
+#### Relationships
+```
+GET /users/:id/messages     // get user messages
+GET /messages/:id/users     // get users who rebounce a message
+```
+
+#### Custom actions
+```
+POST /users/:id/login       // user login
+GET  /users/:id/feed        // get user feed (messages from followed users)
+GET  /messages/:id/rebouce  // rebouce a message
+```
+
+
+
+
+3. Let's code
+------------
+
+#### 3.1. Seting up the project
+
+First let's start the project.
+
+```bash
+mkdir rest-api
+cd rest-api
+
+# create default package.json
+npm init
+
+# install mongoose and restify in the project and save to package.json
+npm install --save mongoose restify
+
+# install bcrypt module to hash passwords
+npm install --save bcrypt
+
+# install async (helper function for working with asynchronous JavaScript)
+npm install --save async
+
+# create basic files structure
+mkfir -p app/models app/routes/messages app/routes/users tests
+
+touch app/server.js
+```
+
+Basic files structure look like this :
+```
+├── app
+│   ├── models
+│   ├── routes
+│   │   ├── messages
+│   │   └── users
+│   └── server.js
+├── tests
+└── package.json
+```
+
+Models are located in`app/models/ModelName.js`, routes controllers in `app/routes/resourcesName/actionName.js`.
+
+Finaly, `app/server.js` is the app entry point where everythings is bootstraped.
+
+
+#### Seting up basic Message data model
+
+```javascript
+// app/model/Message.js
+
+// loading mongoose module
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+
+
+// Defined Message schema
+var messageSchema = new Schema({
+    content:       { type: String, require: true},
+    rebouncedFrom: { type: Schema.Types.ObjectId, ref: 'Message' },
+    createdOn:     { type: Date, default: Date.now},
+    lastUpdatedOn: { type: Date, default: Date.now}
+});
+
+// Create Message model
+var Message = mongoose.model('Message', messageSchema);
+
+// exports Message model
+module.exports = Message;
+```
+
+#### Seting up basic routes controllers
+
+Each route is wire to a controller. 
+
+The 5 basic CRUD controller for Messages look like this.
+
+```javascript
+// *********************************
+// ** app/routes/messages/list.js **
 var restify = require('restify');
-// create a simple server
+var Messages = require('../../models/Messages');
+
+module.exports = function(req, res, next) {
+
+    Messages.find({}, function(err, messages) {
+        if (err) {
+            // loging errors
+            console.error('InternalError :', err);
+            // returning generic InternalError to clients
+            return next(new restify.InternalError());
+        }
+
+        res.send(messages);
+    });
+}
+
+// ************************************
+// ** app/routes/messages/details.js **
+var restify = require('restify');
+var Messages = require('../../models/Messages');
+
+module.exports = function(req, res, next) {
+
+    if (!req.params('id')) {
+        return next(new restify.MissingParameterError('Missing :id param'))
+    }
+
+    Messages.findById(req.params('id'), function(err, message) {
+        if (err) {
+            // loging errors
+            console.error('InternalError :', err);
+            // returning generic InternalError to clients
+            return next(new restify.InternalError());
+        }
+
+        // returning ResourceNotFoundError (error 404)
+        if (!message) { return next(new restify.ResourceNotFoundError()); }
+
+        // returning message on success
+        res.send(message);
+    });
+}
+
+// ***********************************
+// ** app/routes/messages/update.js **
+var restify = require('restify');
+var Messages = require('../../models/Messages');
+
+module.exports = function(req, res, next) {
+
+    if (!req.params('content')) {
+        return next(new restify.MissingParameterError('Missing :content param'))
+    }
+
+    Messages.findByIdAndUpdate(req.params('id'),
+        {
+            content: req.params('content'), // update content
+            lastUpdatedOn: Date.now()       // change lastUpdate date
+        },
+        function(err, message) {
+            if (err) {
+                // loging errors
+                console.error('InternalError :', err);
+                // returning generic InternalError to clients
+                return next(new restify.InternalError());
+            }
+
+            // returning ResourceNotFoundError (error 404)
+            if (!message) { return next(new restify.ResourceNotFoundError()); }
+
+            // returning update message on success
+            res.send(message);
+        }
+    );
+}
+
+// ***********************************
+// ** app/routes/messages/delete.js **
+var restify = require('restify');
+var Messages = require('../../models/Messages');
+
+module.exports = function(req, res, next) {
+    
+    Messages.findByIdAndRemove(req.params('id'), function(err, message) {
+        if (err) {
+            // loging errors
+            console.error('InternalError :', err);
+            // returning generic InternalError to clients
+            return next(new restify.InternalError());
+        }
+
+        // returning ResourceNotFoundError (error 404)
+        if (!message) { return next(new restify.ResourceNotFoundError()); }
+
+        // returning deleted message on success
+        res.send(message);
+    });
+}
+
+// ***********************************
+// ** app/routes/messages/create.js **
+var restify = require('restify');
+var Messages = require('../../models/Messages');
+
+module.exports = function(req, res, next) {
+
+    if (!req.params('content')) {
+        return next(new restify.MissingParameterError('Missing :content'));
+    }
+
+    var message = new Messages({
+        content: req.params('content')
+    });
+
+    message.save(function(err, message) {
+        if (err) {
+            // loging errors
+            console.error('InternalError :', err);
+            // returning generic InternalError to clients
+            return next(new restify.InternalError());
+        }
+
+        // returning message on success
+        res.send(message);
+    })
+}
+
+```
+
+#### 3.4 Server bootstrap and routes wireing
+
+And we need to wire this in `app/server.js`
+
+
+```javascript
+// *******************
+// ** app/server.js **
+var restify = require('restify');
+var mongoose = require('mongoose');
+
+
+// connect to mongodb database rest-api on localhost
+mongoose.connect('mongodb://localhost/rest-api')
+
+
+// create restify server named 'rest-api'
 var server = restify.createServer({
-    name: 'btsync-saas'
+    name: 'rest-api',
 });
 
-// Use Cross Origin Request Sharing middleware
-server.use(restify.CORS({credentials: true}));
-server.use(restify.fullResponse());
-// Use Use HTTP Basic Authentication midleware
-server.use(restify.authorizationParser());
-// Use body parser middleware
-server.use(restify.bodyParser());
+// seting up Messages basic CRUD routes
+server.get('/messages',     require('./routes/messages/list'));
+server.get('/messages/:id', require('./routes/messages/details'));
+server.put('/messages/:id', require('./routes/messages/update'));
+server.del('/messages/:id', require('./routes/messages/delete'));
+server.post('/messages/:id', require('./routes/messages/create'));
 
-// ***********************
-// Users resources
-
-server.get( // Return user profile
-    '/users/:id', access.authenticated(), access.idRequired(), access.userRestricted(),
-    route.Users.info);
-
-server.put( // Update user profile
-    '/users/:id', access.authenticated(), access.idRequired(), access.userRestricted(), access.checkEmail(),
-    route.Users.update);
-
-server.post( // Create a new user
-    '/users/:id/create', access.idRequired(), access.passwordRequired(),
-    route.Users.create);
-
-server.post( // Send credential and return auth token (login)
-    '/users/:id/login', access.idRequired(), access.passwordRequired(),
-    route.Users.login);
-
-
-// ************************
-// Folders resources
-
-server.get( // Return folders list
-    '/users/:id/folders', access.authenticated(), access.idRequired(), access.userRestricted(),
-    route.Folders.list);
-server.get( // return folders details
-    '/users/:id/folders/:folderId', access.authenticated(), access.idRequired(), access.folderIdRequired(), access.userRestricted(),
-    route.Folders.get);
-server.post( // create a new folder (with or without secret
-    '/users/:id/folders', access.authenticated(), access.idRequired(), access.userRestricted(),
-    route.Folders.create);
-server.del( // delete a shared folder
-    '/users/:id/folders/:folderId', access.authenticated(), access.idRequired(), access.folderIdRequired(), access.userRestricted(),
-    route.Folders.delete);
-server.put( // update existing shared folder
-    '/users/:id/folders/:folderId', access.authenticated(), access.idRequired(), access.folderIdRequired(), access.userRestricted(),
-    route.Folders.update);
-
-
-// start server
-server.listen(8080, function () {
-    console.log('%s listening at %s', server.name, server.url);
-});
+// start listening on port 1337
+server.listen(1337);
 ```
 
-Basic routes look like this
-```javascript
-// ** routes.js excerpt *******************
+### Checking everything is working
 
-exports.login = function login(req, res, next) {
-        // make a db request using predefined Mongoose Schema.
-        // id and password have already been check and validate by the access middleware
-        schema.User.login(req.params.id, req.params.password, function (err, user) {
-            // in case of db errors just rend a Restify InternalError to the restify router
-            if (err) return next(new restify.InternalError());
-            // if their is no user 'throw' a restify Error
-            if (!user) return next(new restify.InvalidCredentialsError());
+We can check if everything is working properly with curl
+```bash
+# start the server
+node app/bootstrap.js
 
-            // If evrything looks good juste send back filtered results
-            res.send({
-                id: user.id,
-                token: user.token
-            });
-        });
-    }
+
+curl http://localhost:1337/messages
+# => [];
+
+
+
 ```
 
-As you can see most routes are mostly error management and result filtering (we do not want our password hash roaming on the web)
 
-One of the most complex routes look like this.
-```javascript
-// ** routes.js excerpt *******************
 
-exports.list = function getSharedFoldersList(req, res, next) {
-        // db reuest for all user folders
-        req.user.findFolders(function (err, folders) {
 
-            // throw restify.InternalError() on db error
-            if (err) return next(new restify.InternalError());
 
-            // filter and enhance each db result
-            async.map(
-                folders, // we're working on folders
-                function iterator(item, cb) {
 
-                    // for each folder we make two more db request
-                    async.parallel({
-                        // find folder size in logs
-                        size: function (sizeCallback) {
-                            logSchema.DiskLog.findSize(item.containerId.trim(), false, sizeCallback);
-                        },
-                        // find folders iostat in logs
-                        dstat: function (dstatCallback) {
-                            logSchema.DstatLog.findDstat(item.containerId.trim(), dstatCallback);
-                        }
-                    }, function parallelCallback(err, results) { // enhance and filter single folder result
 
-                        // as always, throw Restify InternalError in case of db errors
-                        if (err) return next(
-                            new restify.InternalError());
+References
+--------------
 
-                        // return filter and enhanced folder object
-                        cb(undefined, {
-                            id: item._id,
-                            name: item.name,
-                            description: item.description,
-                            created: item.created,
-                            size: (results.size ? results.size.size : undefined),
-                            dstat: (results.dstat ? results.dstat.dstat : undefined)
-                        });
+[Best Practices for Designing a Pragmatic RESTful API](http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api) by Vinay Sahni
 
-                    });
-                },
-                // async.parallel callback
-                function callback(err, results) {
-                    // in case of errors throw Restify InternalError
-                    if (err) return next(new restify.InternalError());
+[Nodejs](http://nodejs.org)
 
-                    // send filtered results
-                    res.send(results);
-                }
-            );
-        });
-    }
-```
-As you can see, it is still mostly error management and result filtering.
-All authentication and input filtering/validation burden have been taken care by generic middleware
-```javascript
-// ** server.js excerpt **********
+[Restify](http://mcavage.me/node-restify/)
 
-server.get( // Return folders list
-    // route URL
-    '/users/:id/folders',
-    // User need to be authenticated (throw NotAuthorizedError)
-    access.authenticated(),
-    // userid is required and validate (throw MissingParameterError)
-    access.idRequired(),
-    // Users can only acces their own resources (throw NotAuthorizedError)
-    access.userRestricted(),
-    // route handler
-    route.Folders.list);
-```
+[Mongoose](http://mongoosejs.com/)
 
-### Conclusion
+[MongoDB](http://www.mongodb.org/)
