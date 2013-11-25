@@ -5,6 +5,12 @@
         "desc": "How to build a simple and neat REST Api with nodejs, restify and mongodb",
         "draft": true
     },
+    "a-neat-nodejs-rest-api": {
+        "title": "A neat REST Api with nodejs : part 1",
+        "date": "24 oct, 2013",
+        "desc": "How to build a simple and neat REST Api with nodejs, restify and mongodb.",
+        "draft": false
+    },
     "a-story-about-its-not-ready-yet": {
         "title": "A story about \"It's not ready yet\"",
         "date": "16 oct, 2013",
