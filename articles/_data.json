@@ -8,12 +8,12 @@
     "a-neat-nodejs-rest-api": {
         "title": "A neat REST Api with nodejs : part 1",
         "date": "24 oct, 2013",
-        "desc": "How to build a simple and neat REST Api with nodejs, restify and mongodb.",
-        "draft": false
+        "desc": "How to build a simple and neat REST Api with nodejs, restify and mongodb."
     },
     "a-story-about-its-not-ready-yet": {
         "title": "A story about \"It's not ready yet\"",
         "date": "16 oct, 2013",
-        "desc": "I'm currently writing an article on REST Api with nodejs and restify and an other one about this blog and Harp server. But they are not ready yet."
+        "desc": "I'm currently writing an article on REST Api with nodejs and restify and an other one about this blog and Harp server. But they are not ready yet.",
+        "draft": true
     }
 }

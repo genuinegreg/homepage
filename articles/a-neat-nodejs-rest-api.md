@@ -1,18 +1,18 @@
-I recently had some time to learn a bit more about nodejs, angularjs, docker ...
-I end up building a single page web app named [Plop Sync](https://plop.io/sync)
+I recently had some time to learn more about nodejs, angularjs, docker ...
+I ended up building a single page web app named [Plop Sync](https://plop.io/sync)
 wired to a REST Api.
 
-While building the server api, I learn a lot about building RESTfull api with
+While building the server api, I learnt a lot about building RESTfull api with
 nodejs, restify and mongoose.
 
-With those series of article, I'll try to sum up all the good practices I learned when it comes to building a
+With those series of article, I'll try to sum up all the good practices I learnt when it comes to build a
 neat REST api from scratch, with nodejs.
 
 
 A simple messages REST Api
 --------------
 
-For those articles let's build a simple REST Api which allow to publish and list messages (kind a very basic twiter clone). Let's keep it simple.
+For those articles let's build a simple REST Api which allow to publish and list messages (kind a very basic twitter clone). Let's keep it simple.
 
 First, we need to bootstrap the project :
 
@@ -93,12 +93,12 @@ server.listen(1337);
 
 ### Messages model
 
-Data models are simple mongoose Schemas which provides
+Data models are simple mongoose Schemas which provide
 
  * Model definition
  * Validation
  * Basic database CRUD actions
- * Model and instance custom actions
+ * Models and documents custom actions
 
 For now, let's create a Message Model with a simple content
 
@@ -122,10 +122,10 @@ module.exports = Message;
 
 ### Routes controllers
 
-Lastly we need controllers for each routes.
+Lastly, we need controllers for each route.
 
 Remember `server.get('/messages', require('./routes/messages/list'))` from
-`app/server.js` ? It wire url `/messages` to the controller located
+`app/server.js` ? It matches url `/messages` to the controller located in
 `routes/messages/list.js`.
 
 
@@ -264,7 +264,7 @@ module.exports = function(req, res, next) {
 Rest-api v0.0.0 is finiched, let's test it (badly)
 -------------------
 
-We should be testing a real project with `mocha` for exemple.
+We should test a real project with `mocha` for example.
 But we will just run some `curl` commands to keep things simple for the moment.
 
 ```bash
