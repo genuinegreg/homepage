@@ -12,7 +12,7 @@ neat REST api from scratch, with nodejs.
 A simple messages REST Api
 --------------
 
-For those articles let's build a simple REST Api which allow to publish and list messages (kind a very basic twitter clone). Let's keep it simple.
+For those articles, let's build a simple REST Api which allows to publish and list messages (kind a very basic twitter clone). Let's keep it simple.
 
 First, we need to bootstrap the project :
 
@@ -32,7 +32,7 @@ mkdir -p app/models app/routes/messages
 
 ### Server entrypoint `app/server.js`
 
- * Bootstrap everything : Create restify server and connects database.
+ * Bootstrap everything : Creates restify server and connects database.
  * Routes REST urls to controllers.
 
 ```javascript
@@ -261,7 +261,7 @@ module.exports = function(req, res, next) {
 }
 ```
 
-Rest-api v0.0.0 is finiched, let's test it (badly)
+Rest-api v0.0.0 is finished, let's test it (badly)
 -------------------
 
 We should test a real project with `mocha` for example.
