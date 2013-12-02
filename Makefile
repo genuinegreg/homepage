@@ -8,6 +8,8 @@ deploy:
 		-azv \
 		--exclude=".git" \
 		--exclude="www" \
+		--exclude="Makefile" \
+		--exclude="README.md" \
 		--delete-after \
 		. \
 		plop.io:~/_harp/gregoire-audoux.fr
