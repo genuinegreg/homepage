@@ -3,6 +3,12 @@ html
   head
     != partial("../_partials/head")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    //- if !!poster
+    style.
+        .bg-img {
+            background-image: url("#{poster}");
+        }
+
   body
 
     .wrap
