@@ -10,6 +10,7 @@ deploy:
 		--exclude="www" \
 		--exclude="Makefile" \
 		--exclude="README.md" \
+		--exclude=".idea" \
 		--delete-after \
 		. \
 		plop.io:~/_harp/gregoire-audoux.fr
@@ -17,3 +18,7 @@ deploy:
 
 clean:
 	rm -Rf www
+
+
+force:
+	true
