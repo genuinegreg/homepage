@@ -1,7 +1,13 @@
 {
-	"plop-sync": {
+    "sunnypass": {
+        "title": "SunnyPass",
+        "desc": "SunnyPass is a password manager prototype allowing you to safely store and share your password and private data across your devices (desktop and mobile). Thanks to a secure private p2p network your data are never stored in the cloud",
+        "cat": "WebApp/App",
+        "url": "https://plop.io/sunnypass/"
+    },
+    "plop-sync": {
 		"title": "Plop-sync",
-		"desc": "Bittorrent sync cloud platform build with nodejs, restify and angularjs",
+		"desc": "Bittorrent sync cloud platform build with nodejs, restify and angularjs. (due to the very frequent docker update, creation of isolated bittorrent sync node in the backend may be broken)",
 		"cat": "WebApp",
 		"url": "https://plop.io/sync/"
 	},
