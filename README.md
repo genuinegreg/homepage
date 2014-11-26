@@ -12,5 +12,5 @@ Build using harp and docker.io
     docker run -d \
         --restart=on-failure:3 \
         -p 9000 \
-        --name btsync \
+        --name homepage \
         genuinegreg/homepage
