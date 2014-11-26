@@ -4,6 +4,7 @@
   "description": "Plop ====",
   "main": "index.js",
   "scripts": {
+    "start": "node ./node_modules/harp/bin/harp server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
